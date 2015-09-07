@@ -1,0 +1,13 @@
+---
+name: docker-broker-images
+packages: []
+templates:
+  bin/monit_debugger: bin/monit_debugger
+  bin/docker_broker_images_ctl: bin/docker_broker_images_ctl
+  config/docker_broker_images.conf.erb: config/docker_broker_images.conf
+  data/properties.sh.erb: data/properties.sh
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+properties:
+  docker_broker_images.leader_address:
+    description: Hostname/IP to the leader/master of the cluster

@@ -1,0 +1,5 @@
+check process docker_broker_images
+  with pidfile /var/vcap/sys/run/docker_broker_images/docker_broker_images.pid
+  start program "/var/vcap/jobs/docker_broker_images/bin/monit_debugger docker_broker_images_ctl '/var/vcap/jobs/docker_broker_images/bin/docker_broker_images_ctl start'"
+  stop program "/var/vcap/jobs/docker_broker_images/bin/monit_debugger docker_broker_images_ctl '/var/vcap/jobs/docker_broker_images/bin/docker_broker_images_ctl stop'"
+  group vcap
