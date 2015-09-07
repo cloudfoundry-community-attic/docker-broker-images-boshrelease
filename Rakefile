@@ -1,15 +1,25 @@
-desc "Generates a properties file for each job based on properties.X.Y used in templates"
-task :job_properties do
-  require "fileutils"
-  Dir["jobs/*"].each do |path|
-    puts "Searching job #{File.basename(path)}..."
-    FileUtils.chdir(path) do
-      properties = []
-      Dir["templates/*.erb"].each do |template_path|
-        properties |= File.read(template_path).scan(/\bproperties\.[\w\.]*\b/)
-        puts properties.join("\n")
-        File.open("properties", "w") { |file| file << properties.join("\n") }
+namespace :packages do
+  desc "Update docker image packages"
+  task :update_docker_images, [:manifest]  do |t, args|
+    require 'yaml'
+    manifest = YAML.load_file(File.expand_path(args[:manifest], __FILE__))
+    services = manifest["properties"]["broker"]["services"]
+    services.map! do |service|
+      service["plans"].map! do |plan|
+        OpenStruct.new(
+          plan["container"].select do |k|
+            %w(image tag).include? k
+          end
+        )
       end
+    end.flatten!.uniq! { |s| s.image + s.tag }
+
+#    print services.map(&:to_h).to_yaml
+    services.each do |service|
+      image = service.image + ":" + service.tag
+      name = service.image.split('/')[1] + "-image"
+      puts "Adding/updating package: #{name}"
+      sh "bosh-gen package #{name} --docker-image #{image}"
     end
   end
 end
