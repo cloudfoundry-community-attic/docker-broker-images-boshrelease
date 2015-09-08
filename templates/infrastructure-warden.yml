@@ -12,20 +12,11 @@ update:
   update_watch_time: 1000-30000
 
 jobs:
-  - name: docker_broker_images_leader_z1
+  - name: docker_broker_images
     instances: 1
     networks:
       - name: docker_broker_images1
         static_ips: (( static_ips(0) ))
-  - name: docker_broker_images_z1
-    instances: 2
-    networks:
-      - name: docker_broker_images1
-        static_ips: ~
-    properties:
-      docker_broker_images:
-        leader_address: (( jobs.docker_broker_images_leader_z1.networks.docker_broker_images1.static_ips.[0] ))
-
 compilation:
   cloud_properties:
     name: random

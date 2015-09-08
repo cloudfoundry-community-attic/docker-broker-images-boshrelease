@@ -1,2 +1,6 @@
-/blobs/*
 *.DS_Store
+/tmp/
+/blobs/
+/dev_releases/
+/.dev_builds/
+/config/dev.yml

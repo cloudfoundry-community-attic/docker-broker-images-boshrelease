@@ -9,19 +9,11 @@ meta:
     version: latest
 
 jobs:
-  - name: docker_broker_images_leader_z1
+  - name: docker_broker_images
     instances: 1
     networks:
       - name: docker_broker_images1
     persistent_disk: (( meta.persistent_disk ))
-  - name: docker_broker_images_z1
-    instances: 2
-    networks:
-      - name: docker_broker_images1
-    persistent_disk: (( meta.persistent_disk ))
-    properties:
-      docker_broker_images:
-        leader_address: (( "0.docker-broker-images-leader-z1.docker-broker-images1." meta.environment "." meta.dns_root ))
 
 compilation:
   cloud_properties:
