@@ -118,9 +118,9 @@ module DockerImagePackaging
   def packaging_script
     <<-END.gsub(/^ {6}/, '')
       set -e; set -u
-      cd docker-layers
+      cd docker_layers
       for layer in *.tgz; do tar -xf "$layer"; rm "$layer"; done
-      tar -xf ../docker-images/*.tgz
+      tar -xf ../docker_images/*.tgz
       tar -zcf image.tgz ./*
       cp -a image.tgz $BOSH_INSTALL_TARGET
     END
