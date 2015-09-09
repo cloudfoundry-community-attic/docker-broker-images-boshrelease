@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/docker_load_images/helpers/ctl_setup.sh 'docker_load_images'
+
+EXITSTATUS=0
+
+<% p('docker_broker_images.docker_nodes').each do |ip| %>
+for image in /var/vcap/packages/*_image/*.tgz; do
+  echo "Started loading: $image to docker node: <%= ip %>"
+  docker \
+       --host tcp://<%= "#{ip}:#{p('docker_broker_images.docker_port')}" %> \
+       load -i $image
+  echo "Done"
+done
+<% end %>
+
+echo "Errand docker_load_images is complete; exit status $EXITSTATUS"
+exit $EXITSTATUS
