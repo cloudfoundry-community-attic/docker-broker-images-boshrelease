@@ -1,0 +1,6 @@
+--- 
+final_name: docker-broker-images
+blobstore:
+  provider: s3
+  options: 
+    bucket_name: docker-broker-images-boshrelease
