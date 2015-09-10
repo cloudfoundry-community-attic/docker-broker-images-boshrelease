@@ -12,9 +12,13 @@ jobs:
         default: [dns, gateway]
 
 properties:
+  docker:
+    tcp_address: 0.0.0.0
+
   broker:
-    docker_url: (( merge ))
-    
+    fetch_images: false # use `bosh run errand fetch-containers` so broker is not blocked
+
+
   docker_broker_images:
     docker_nodes: (( jobs.docker.networks.default.static_ips ))
 
