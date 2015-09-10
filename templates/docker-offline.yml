@@ -1,0 +1,20 @@
+jobs:
+  - <<: (( merge ))
+  - name: fetch-containers
+    templates:
+      - name: docker_load_images
+        release: docker-broker-images
+    instances: 1
+    resource_pool: default
+    lifecycle: errand
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+properties:
+  broker:
+    docker_url: (( merge ))
+    
+  docker_broker_images:
+    docker_nodes: (( jobs.docker.networks.default.static_ips ))
+
