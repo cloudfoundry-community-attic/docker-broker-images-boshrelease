@@ -10,7 +10,10 @@ To get started quickly it is recommended to use [docker-services-boshworkspace](
 If you want to include this release in an existing deployment you can add [docker-offline.yml](https://github.com/cloudfoundry-community/docker-broker-images-boshrelease/blob/master/templates/docker-offline.yml] to your spiff templates.
 
 When using the above template the images can be loaded into docker by running:
-`bosh run errand fetch-containers`
+
+```
+bosh run errand fetch-containers
+```
 
 ### Development
 
