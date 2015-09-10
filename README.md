@@ -1,54 +1,16 @@
 # BOSH Release for docker-broker-images
 
+This boshrelease can be used to seed a bunch of docker [images](https://github.com/cloudfoundry-community/docker-broker-images-boshrelease/blob/master/images.yml) into a [configurable list of docker nodes](https://github.com/cloudfoundry-community/docker-broker-images-boshrelease/blob/master/jobs/docker_load_images/spec#L10-L16).
+
 ## Usage
 
-To use this bosh release, first upload it to your bosh:
+This boshrelease has been tested to work with [docker-boshrelease](https://github.com/cf-platform-eng/docker-boshrelease).
+To get started quickly it is recommended to use [docker-services-boshworkspace](https://github.com/cloudfoundry-community/docker-services-boshworkspace) which comes with some preconfigured deployments.
 
-```
-bosh target BOSH_HOST
-git clone https://github.com/cloudfoundry-community/docker-broker-images-boshrelease.git
-cd docker-broker-images-boshrelease
-bosh upload release releases/docker-broker-images-1.yml
-```
+If you want to include this release in an existing deployment you can add [docker-offline.yml](https://github.com/cloudfoundry-community/docker-broker-images-boshrelease/blob/master/templates/docker-offline.yml] to your spiff templates.
 
-For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
-
-```
-templates/make_manifest warden
-bosh -n deploy
-```
-
-For AWS EC2, create a single VM:
-
-```
-templates/make_manifest aws-ec2
-bosh -n deploy
-```
-
-### Override security groups
-
-For AWS & Openstack, the default deployment assumes there is a `default` security group. If you wish to use a different security group(s) then you can pass in additional configuration when running `make_manifest` above.
-
-Create a file `my-networking.yml`:
-
-``` yaml
----
-networks:
-  - name: docker-broker-images1
-    type: dynamic
-    cloud_properties:
-      security_groups:
-        - docker-broker-images
-```
-
-Where `- docker-broker-images` means you wish to use an existing security group called `docker-broker-images`.
-
-You now suffix this file path to the `make_manifest` command:
-
-```
-templates/make_manifest openstack-nova my-networking.yml
-bosh -n deploy
-```
+When using the above template the images can be loaded into docker by running:
+`bosh run errand fetch-containers`
 
 ### Development
 
