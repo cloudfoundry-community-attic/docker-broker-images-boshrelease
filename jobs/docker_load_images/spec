@@ -1,35 +1,30 @@
 ---
 name: docker_load_images
-
 templates:
   bin/run: bin/run
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
-
 properties:
   docker_broker_images.docker_port:
-    description: "Docker deamon port"
+    description: Docker deamon port
     default: 4243
-
   docker_broker_images.docker_nodes:
-    description: "Array of Dockers (IPs)"
+    description: Array of Dockers (IPs)
     default: []
-
 packages:
-  - docker
-  - drnic_etcd_0_4_6_image
-  - drnic_gnatsd_0_5_4_image
-  - frodenas_arangodb_2_2_image
-  - frodenas_couchdb_1_6_image
-  - frodenas_elasticsearch_1_3_image
-  - frodenas_logstash_1_4_image
-  - frodenas_memcached_1_4_image
-  - frodenas_mongodb_2_6_image
-  - frodenas_mysql_latest_image
-  - frodenas_neo4j_2_1_image
-  - frodenas_rabbitmq_latest_image
-  - frodenas_redis_2_8_image
-  - library_rethinkdb_latest_image
-  - lnguyen_postgresql_latest_image
-
-
+- docker
+- drnic_etcd_0_4_6_image
+- drnic_gnatsd_0_5_4_image
+- frodenas_arangodb_2_2_image
+- frodenas_couchdb_1_6_image
+- frodenas_elasticsearch_1_3_image
+- frodenas_logstash_1_4_image
+- frodenas_memcached_1_4_image
+- frodenas_mongodb_2_6_image
+- frodenas_mysql_latest_image
+- frodenas_neo4j_2_1_image
+- frodenas_rabbitmq_latest_image
+- frodenas_redis_2_8_image
+- library_rethinkdb_latest_image
+- lnguyen_postgresql_latest_image
+- progrium_consul_latest_image

@@ -1,11 +1,18 @@
 require 'yaml'
 require 'fileutils'
 
+namespace :jobs do
+  desc "Update job specs"
+  task :update_specs do
+    include JobSpecs
+    update_job_specs
+  end
+end
+
 namespace :images do
   desc "Export docker images"
   task :export do
     include ImageConfig
-    include CommonDirs
 
     images.each do |image|
       sh "docker pull #{image.name}"
@@ -17,7 +24,6 @@ namespace :images do
   task :package do
     include DockerImagePackaging
     include ImageConfig
-    include CommonDirs
 
     images.each do |image|
       Dir.mktmpdir do |dir|
@@ -42,9 +48,32 @@ module CommonDirs
   def packages_dir(path = "")
     File.join(repo_dir, 'packages', path)
   end
+
+  def jobs_dir(path = "")
+    File.join(repo_dir, 'jobs', path)
+  end
+end
+
+module JobSpecs
+  include CommonDirs
+
+  def image_packages
+    Dir.chdir(packages_dir) { Dir.glob("*_image") }
+  end
+
+  def update_job_specs
+    Dir["#{jobs_dir}*/spec"].map do |file|
+      spec = YAML.load_file(file)
+      spec["packages"].concat(image_packages).uniq!
+      IO.write(file, spec.to_yaml)
+      puts "Updated: #{file}"
+    end
+  end
 end
 
 module ImageConfig
+  include CommonDirs
+
   def images
     @images ||= begin
       YAML.load_file(File.expand_path('../images.yml', __FILE__))
@@ -73,6 +102,8 @@ module ImageConfig
 end
 
 module DockerImagePackaging
+  include CommonDirs
+
   PREFIXES = %w(docker_layers docker_images)
 
   class Blob
