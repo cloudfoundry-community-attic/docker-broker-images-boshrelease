@@ -28,3 +28,4 @@ packages:
 - library_rethinkdb_latest_image
 - lnguyen_postgresql_latest_image
 - progrium_consul_latest_image
+- cfcommunity_logstash_latest_image

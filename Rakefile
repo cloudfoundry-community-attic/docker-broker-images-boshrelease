@@ -11,21 +11,21 @@ end
 
 namespace :images do
   desc "Export docker images"
-  task :export do
+  task :export, [:image] do |_, args|
     include ImageConfig
 
-    images.each do |image|
+    images(args[:image]).each do |image|
       sh "docker pull #{image.name}"
       sh "docker save #{image.name} > #{tmp_dir(image.tar)}"
     end
   end
 
   desc "Package exported images"
-  task :package do
+  task :package, [:image] do |_, args|
     include DockerImagePackaging
     include ImageConfig
 
-    images.each do |image|
+    images(args[:image]).each do |image|
       Dir.mktmpdir do |dir|
         repackage_image_blobs(tmp_dir(image.tar), dir).tap do |blobs|
           blobs.each { |b| sh "bosh add blob #{b.target(dir)} #{b.prefix}" }
@@ -74,10 +74,11 @@ end
 module ImageConfig
   include CommonDirs
 
-  def images
+  def images(image = nil)
     @images ||= begin
-      YAML.load_file(File.expand_path('../images.yml', __FILE__))
-        .map! { |i| Image.new(i["image"], i["tag"]) }
+      images = YAML.load_file(File.expand_path('../images.yml', __FILE__))
+      images.keep_if { |i| i['image'].to_s == image } if image
+      images.map! { |i| Image.new(i["image"], i["tag"]) }
     end
   end
 
