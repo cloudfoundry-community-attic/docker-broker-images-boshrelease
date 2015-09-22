@@ -7,10 +7,13 @@ This boshrelease can be used to seed a bunch of docker [images](https://github.c
 This boshrelease has been tested to work with [docker-boshrelease](https://github.com/cf-platform-eng/docker-boshrelease).
 To get started quickly it is recommended to use [docker-services-boshworkspace](https://github.com/cloudfoundry-community/docker-services-boshworkspace) which comes with some preconfigured deployments.
 
-If you want to include this release in an existing deployment you can add [docker-offline.yml](https://github.com/cloudfoundry-community/docker-broker-images-boshrelease/blob/master/templates/docker-offline.yml] to your spiff templates.
+If you want to include this release in an existing deployment you can add [docker-offline.yml](https://github.com/cloudfoundry-community/docker-broker-images-boshrelease/blob/master/templates/docker-offline.yml) to your spiff templates.
 
 When using the above template the images can be loaded into docker by running:
-`bosh run errand fetch-containers`
+
+```
+bosh run errand fetch-containers
+```
 
 ### Development
 
