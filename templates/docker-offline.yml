@@ -1,6 +1,6 @@
 jobs:
   - <<: (( merge ))
-  - name: fetch-containers
+  - name: fetch-containers-images
     templates:
       - name: docker_load_images
         release: docker-broker-images
@@ -16,7 +16,7 @@ properties:
     tcp_address: 0.0.0.0
 
   broker:
-    fetch_images: false # use `bosh run errand fetch-containers` so broker is not blocked
+    fetch_images: false # use `bosh run errand fetch-containers-images` so broker is not blocked
 
 
   docker_broker_images:

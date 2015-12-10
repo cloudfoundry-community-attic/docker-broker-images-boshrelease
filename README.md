@@ -12,7 +12,7 @@ If you want to include this release in an existing deployment you can add [docke
 When using the above template the images can be loaded into docker by running:
 
 ```
-bosh run errand fetch-containers
+bosh run errand fetch-containers-images
 ```
 
 ### Development
